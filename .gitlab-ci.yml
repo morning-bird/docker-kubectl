@@ -1,0 +1,14 @@
+variables:
+  IMAGE_LATEST: gmschurchdev/kubectl:alpine-latest
+
+build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  tags:
+    - docker
+  script:
+    - mkdir -p /kaniko/.docker
+    - cp $DOCKER_CONFIG /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $IMAGE_LATEST
